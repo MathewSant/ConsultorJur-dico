@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expedit - Consultor Jurídico IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50">
+    <div class="flex flex-col h-screen">
+        <!-- Header -->
+        <div class="header bg-white border-b border-gray-200 py-4 px-6 flex items-center justify-between sticky top-0 z-10">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-[#1E90FF] flex items-center justify-center">
+                    <span class="text-white font-bold text-sm">E</span>
+                </div>
+                <h1 class="text-xl font-semibold text-gray-800">Consultor Jurídico IA</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="new-chat-btn" class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="ml-1 hidden md:inline">Nova Consulta</span>
+                </button>
+                <button id="dark-mode-toggle" class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Chat Container -->
+        <div class="chat-container flex-1 overflow-y-auto p-4 bg-white">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Welcome Message -->
+                <div class="message-ai flex space-x-3 message-animation">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#1E90FF] flex items-center justify-center">
+                        <i class="fas fa-robot text-white"></i>
+                    </div>
+                    <div class="bg-[#1E90FF] text-white rounded-2xl p-4 max-w-[85%]">
+                        <p>Olá, sou o assistente jurídico da Expedit. Como posso ajudar você hoje?</p>
+                        <p class="mt-2 text-sm opacity-80">Posso analisar processos, sugerir jurisprudência e esclarecer dúvidas legais com base na legislação brasileira.</p>
+                    </div>
+                </div>
+                
+                <!-- Sample User Message -->
+                <div class="message-user flex justify-end space-x-3 message-animation">
+                    <div class="bg-[#ECEFF1] text-[#2E2E2E] rounded-2xl p-4 max-w-[85%]">
+                        <p>Preciso de orientação sobre um caso de danos morais contra uma empresa de telecomunicações. O cliente teve dados vazados.</p>
+                    </div>
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
+                        <i class="fas fa-user text-gray-600"></i>
+                    </div>
+                </div>
+                
+                <!-- Sample AI Response -->
+                <div class="message-ai flex space-x-3 message-animation">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#1E90FF] flex items-center justify-center">
+                        <i class="fas fa-robot text-white"></i>
+                    </div>
+                    <div class="bg-[#1E90FF] text-white rounded-2xl p-4 max-w-[85%]">
+                        <p>Entendo o caso. Com base na Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018) e no Código de Defesa do Consumidor, há fundamento para ação de danos morais.</p>
+                        <p class="mt-2">Pontos relevantes:</p>
+                        <ul class="mt-1 space-y-1 list-disc list-inside">
+                            <li>Responsabilidade objetiva da empresa</li>
+                            <li>Possível indenização de 2 a 50 salários mínimos</li>
+                            <li>Prazo prescricional de 3 anos</li>
+                        </ul>
+                        <p class="mt-2">Sugiro consultar: <a href="#" class="legal-link">REsp 1.334.187/SC</a> e <a href="#" class="legal-link">REsp 1.659.231/SP</a> como jurisprudência similar.</p>
+                    </div>
+                </div>
+                
+                <!-- Sample User Message -->
+                <div class="message-user flex justify-end space-x-3 message-animation">
+                    <div class="bg-[#ECEFF1] text-[#2E2E2E] rounded-2xl p-4 max-w-[85%]">
+                        <p>Qual seria o valor médio de indenização em casos semelhantes na região sudeste?</p>
+                    </div>
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
+                        <i class="fas fa-user text-gray-600"></i>
+                    </div>
+                </div>
+                
+                <!-- AI Typing Indicator -->
+                <div class="message-ai flex space-x-3" id="typing-indicator">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#1E90FF] flex items-center justify-center">
+                        <i class="fas fa-robot text-white"></i>
+                    </div>
+                    <div class="bg-[#1E90FF] text-white rounded-2xl p-4 max-w-[85%]">
+                        <div class="flex space-x-1">
+                            <div class="typing-dot w-2 h-2 bg-white rounded-full"></div>
+                            <div class="typing-dot w-2 h-2 bg-white rounded-full"></div>
+                            <div class="typing-dot w-2 h-2 bg-white rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skeleton Loader for New Message -->
+                <div class="hidden" id="skeleton-loader">
+                    <div class="message-ai flex space-x-3">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#1E90FF] flex items-center justify-center">
+                            <i class="fas fa-robot text-white"></i>
+                        </div>
+                        <div class="bg-[#1E90FF] rounded-2xl p-4 max-w-[85%] w-full">
+                            <div class="skeleton-loader h-4 rounded mb-2 w-3/4"></div>
+                            <div class="skeleton-loader h-4 rounded mb-2 w-full"></div>
+                            <div class="skeleton-loader h-4 rounded mb-2 w-2/3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Input Container -->
+        <div class="input-container bg-white border-t border-gray-200 p-4 sticky bottom-0">
+            <div class="max-w-3xl mx-auto flex items-center space-x-2">
+                <button class="p-2 text-gray-500 hover:text-gray-700 rounded-full transition-colors">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <div class="flex-1 relative">
+                    <input type="text" id="message-input" class="input-field w-full bg-gray-100 rounded-2xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#1E90FF] focus:border-transparent" placeholder="Descreva sua dúvida jurídica...">
+                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+                <button id="send-btn" class="btn-hover p-3 bg-[#1E90FF] text-white rounded-full transition-all">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="max-w-3xl mx-auto mt-2 text-xs text-gray-500 text-center">
+                A Expedit não substitui aconselhamento jurídico formal. Consulte sempre um advogado para orientação específica.
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
